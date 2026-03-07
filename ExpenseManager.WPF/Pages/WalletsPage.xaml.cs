@@ -14,7 +14,15 @@ public partial class WalletsPage : Page
         InitializeComponent();
         _frame = frame;
         _storageService = App.ServiceProvider.GetRequiredService<IExpenseStorageService>();
-        WalletsListBox.ItemsSource = _storageService.GetWallets();
+        var wallets = _storageService.GetWallets();
+        foreach (var w in wallets)
+        {
+            if (!w.TransactionsLoaded)
+            {
+                w.SetTransactions(_storageService.GetTransactions(w.Id));
+            }
+        }
+        WalletsListBox.ItemsSource = wallets;
     }
 
     private void WalletsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

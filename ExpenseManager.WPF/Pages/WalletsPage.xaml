@@ -10,13 +10,22 @@
 
         <TextBlock Grid.Row="0" Text="Гаманці" FontSize="22" FontWeight="Bold" Margin="0,0,0,12" />
 
-        <ListBox Grid.Row="1" x:Name="WalletsListBox" SelectionChanged="WalletsListBox_SelectionChanged">
+        <ListBox Grid.Row="1" x:Name="WalletsListBox" SelectionChanged="WalletsListBox_SelectionChanged"
+                 HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="4">
-                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding Currency}" FontSize="13" Foreground="Gray" />
-                    </StackPanel>
+                    <Grid Margin="4,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding Currency}" FontSize="13" Foreground="Gray" />
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="{Binding TotalAmount, StringFormat='{}{0:N2}'}"
+                                   FontSize="16" VerticalAlignment="Center" Foreground="#555" />
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

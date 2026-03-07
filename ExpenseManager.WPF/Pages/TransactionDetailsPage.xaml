@@ -12,6 +12,7 @@
 
         <StackPanel Grid.Row="1" Margin="0,16,0,0">
             <TextBlock x:Name="TransactionIdText" FontSize="12" Foreground="Gray" />
+            <TextBlock x:Name="TransactionWalletIdText" FontSize="12" Foreground="Gray" />
             <TextBlock x:Name="TransactionDateText" FontSize="16" Margin="0,8,0,0" />
             <TextBlock x:Name="TransactionCategoryText" FontSize="16" Margin="0,4,0,0" />
             <TextBlock x:Name="TransactionAmountText" FontSize="22" FontWeight="Bold" Margin="0,8,0,0" />

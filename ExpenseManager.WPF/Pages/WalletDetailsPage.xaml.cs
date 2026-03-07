@@ -25,6 +25,11 @@ public partial class WalletDetailsPage : Page
         WalletCurrencyText.Text = $"Валюта: {wallet.Currency}";
         WalletTotalText.Text = $"Баланс: {wallet.TotalAmount:N2}";
         TransactionsListBox.ItemsSource = wallet.Transactions;
+
+        if (wallet.Transactions.Count == 0)
+        {
+            EmptyTransactionsText.Visibility = System.Windows.Visibility.Visible;
+        }
     }
 
     private void BackButton_Click(object sender, System.Windows.RoutedEventArgs e)

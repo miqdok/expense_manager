@@ -25,6 +25,9 @@
 
         <TextBlock Grid.Row="2" Text="Транзакції" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,8" />
 
+        <TextBlock Grid.Row="3" x:Name="EmptyTransactionsText" Text="Транзакцій немає" FontSize="14"
+                   Foreground="Gray" Visibility="Collapsed" Margin="0,4,0,0" />
+
         <ListBox Grid.Row="3" x:Name="TransactionsListBox" SelectionChanged="TransactionsListBox_SelectionChanged"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>

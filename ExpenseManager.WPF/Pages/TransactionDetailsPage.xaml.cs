@@ -14,6 +14,7 @@ public partial class TransactionDetailsPage : Page
         _frame = frame;
 
         TransactionIdText.Text = $"Id: {transaction.Id}";
+        TransactionWalletIdText.Text = $"Гаманець: {transaction.WalletId}";
         TransactionDateText.Text = $"Дата: {transaction.Date:yyyy-MM-dd HH:mm}";
         TransactionCategoryText.Text = $"Категорія: {transaction.Category}";
         TransactionAmountText.Text = $"{transaction.Amount:N2}";

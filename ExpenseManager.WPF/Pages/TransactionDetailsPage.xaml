@@ -1,0 +1,22 @@
+<Page x:Class="ExpenseManager.WPF.Pages.TransactionDetailsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Transaction Details">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" Content="← Назад" HorizontalAlignment="Left" Click="BackButton_Click" Padding="8,4" />
+
+        <StackPanel Grid.Row="1" Margin="0,16,0,0">
+            <TextBlock x:Name="TransactionIdText" FontSize="12" Foreground="Gray" />
+            <TextBlock x:Name="TransactionDateText" FontSize="16" Margin="0,8,0,0" />
+            <TextBlock x:Name="TransactionCategoryText" FontSize="16" Margin="0,4,0,0" />
+            <TextBlock x:Name="TransactionAmountText" FontSize="22" FontWeight="Bold" Margin="0,8,0,0" />
+            <TextBlock x:Name="TransactionTypeText" FontSize="14" Margin="0,4,0,0" />
+            <TextBlock x:Name="TransactionDescriptionText" FontSize="14" Margin="0,8,0,0" TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
+</Page>

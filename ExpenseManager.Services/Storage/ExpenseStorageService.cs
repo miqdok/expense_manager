@@ -3,7 +3,7 @@ using ExpenseManager.UI.Models;
 
 namespace ExpenseManager.Services.Storage;
 
-public class ExpenseStorageService
+public class ExpenseStorageService : IExpenseStorageService
 {
     // Map storage entities to UI models
     public IReadOnlyList<WalletModel> GetWallets()

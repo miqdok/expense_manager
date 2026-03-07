@@ -1,7 +1,7 @@
 using ExpenseManager.Services.Storage;
 using ExpenseManager.UI.Models;
 
-var storageService = new ExpenseStorageService();
+IExpenseStorageService storageService = new ExpenseStorageService();
 var wallets = storageService.GetWallets().ToList();
 
 ShowStartupShowcase(storageService, wallets);
@@ -34,7 +34,7 @@ while (true)
     ShowWalletDetails(storageService, wallets[walletIndex - 1]);
 }
 
-static void ShowStartupShowcase(ExpenseStorageService storageService, IReadOnlyList<WalletModel> wallets)
+static void ShowStartupShowcase(IExpenseStorageService storageService, IReadOnlyList<WalletModel> wallets)
 {
     if (wallets.Count == 0)
     {
@@ -63,7 +63,7 @@ static void PrintWallets(IReadOnlyList<WalletModel> wallets)
     }
 }
 
-static void ShowWalletDetails(ExpenseStorageService storageService, WalletModel wallet)
+static void ShowWalletDetails(IExpenseStorageService storageService, WalletModel wallet)
 {
     if (!wallet.TransactionsLoaded)
     {

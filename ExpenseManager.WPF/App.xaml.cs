@@ -10,6 +10,7 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
+        // register services for dependency injection
         var services = new ServiceCollection();
         services.AddSingleton<IExpenseStorageService, ExpenseStorageService>();
         ServiceProvider = services.BuildServiceProvider();

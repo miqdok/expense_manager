@@ -29,6 +29,7 @@ public partial class WalletDetailsPage : Page
         if (wallet.Transactions.Count == 0)
         {
             EmptyTransactionsText.Visibility = System.Windows.Visibility.Visible;
+            TransactionsListBox.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 

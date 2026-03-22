@@ -1,6 +1,9 @@
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using ExpenseManager.Services.Storage;
+using ExpenseManager.Repositories;
+using ExpenseManager.Services;
+using ExpenseManager.WPF.Services;
+using ExpenseManager.WPF.ViewModels;
 
 namespace ExpenseManager.WPF;
 
@@ -10,9 +13,25 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        // register services for dependency injection
         var services = new ServiceCollection();
-        services.AddSingleton<IExpenseStorageService, ExpenseStorageService>();
+
+        // repositories
+        services.AddSingleton<IWalletRepository, WalletRepository>();
+        services.AddSingleton<ITransactionRepository, TransactionRepository>();
+
+        // services
+        services.AddSingleton<IWalletService, WalletService>();
+        services.AddSingleton<ITransactionService, TransactionService>();
+
+        // navigation
+        services.AddSingleton<NavigationService>();
+        services.AddSingleton<INavigationService>(sp => sp.GetRequiredService<NavigationService>());
+
+        // viewmodels
+        services.AddTransient<WalletsViewModel>();
+        services.AddTransient<WalletDetailsViewModel>();
+        services.AddTransient<TransactionDetailsViewModel>();
+
         ServiceProvider = services.BuildServiceProvider();
 
         var mainWindow = new MainWindow();

@@ -1,6 +1,11 @@
-<Page x:Class="ExpenseManager.WPF.Pages.WalletsPage"
+<Page x:Class="ExpenseManager.WPF.Views.WalletsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:vm="clr-namespace:ExpenseManager.WPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=vm:WalletsViewModel}"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
       Title="Wallets">
     <Grid Margin="16">
         <Grid.RowDefinitions>
@@ -10,21 +15,27 @@
 
         <TextBlock Grid.Row="0" Text="Гаманці" FontSize="22" FontWeight="Bold" Margin="0,0,0,12" />
 
-        <ListBox Grid.Row="1" x:Name="WalletsListBox" SelectionChanged="WalletsListBox_SelectionChanged"
-                 HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Row="1" ItemsSource="{Binding Wallets}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="4" />
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="4,6">
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftClick"
+                                          Command="{Binding DataContext.SelectWalletCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                          CommandParameter="{Binding}" />
+                        </Grid.InputBindings>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" />
                             <TextBlock Text="{Binding Currency}" FontSize="13" Foreground="Gray" />
                         </StackPanel>
-                        <TextBlock Grid.Column="1" Text="{Binding TotalAmount, StringFormat='{}{0:N2}'}"
-                                   FontSize="16" VerticalAlignment="Center" Foreground="#555" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

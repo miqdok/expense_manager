@@ -1,5 +1,7 @@
 using System.Windows;
-using ExpenseManager.WPF.Pages;
+using Microsoft.Extensions.DependencyInjection;
+using ExpenseManager.WPF.Services;
+using ExpenseManager.WPF.ViewModels;
 
 namespace ExpenseManager.WPF;
 
@@ -8,6 +10,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        MainFrame.Navigate(new WalletsPage(MainFrame));
+
+        var navigationService = App.ServiceProvider.GetRequiredService<NavigationService>();
+        navigationService.SetFrame(MainFrame);
+        navigationService.NavigateTo<WalletsViewModel>();
     }
 }

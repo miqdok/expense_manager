@@ -1,6 +1,5 @@
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using ExpenseManager.Repositories;
 using ExpenseManager.Services;
 using ExpenseManager.WPF.Services;
 using ExpenseManager.WPF.ViewModels;
@@ -15,13 +14,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        // repositories
-        services.AddSingleton<IWalletRepository, WalletRepository>();
-        services.AddSingleton<ITransactionRepository, TransactionRepository>();
-
-        // services
-        services.AddSingleton<IWalletService, WalletService>();
-        services.AddSingleton<ITransactionService, TransactionService>();
+        services.AddAppServices();
 
         // navigation
         services.AddSingleton<NavigationService>();

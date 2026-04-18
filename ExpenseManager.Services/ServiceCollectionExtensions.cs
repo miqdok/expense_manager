@@ -5,9 +5,9 @@ namespace ExpenseManager.Services;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAppServices(this IServiceCollection services)
+    public static IServiceCollection AddAppServices(this IServiceCollection services, string dbPath)
     {
-        services.AddRepositories();
+        services.AddRepositories(dbPath);
         services.AddSingleton<IWalletService, WalletService>();
         services.AddSingleton<ITransactionService, TransactionService>();
         return services;

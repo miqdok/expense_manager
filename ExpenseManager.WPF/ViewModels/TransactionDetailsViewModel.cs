@@ -14,17 +14,28 @@ public partial class TransactionDetailsViewModel : ObservableObject, IParameterR
     [ObservableProperty]
     private TransactionDetailsDto? _transaction;
 
+    [ObservableProperty]
+    private bool _isLoading;
+
     public TransactionDetailsViewModel(ITransactionService transactionService, INavigationService navigationService)
     {
         _transactionService = transactionService;
         _navigationService = navigationService;
     }
 
-    public void ReceiveParameter(object parameter)
+    public async Task ReceiveParameterAsync(object parameter)
     {
         if (parameter is Guid transactionId)
         {
-            Transaction = _transactionService.GetTransactionDetails(transactionId);
+            IsLoading = true;
+            try
+            {
+                Transaction = await _transactionService.GetTransactionDetailsAsync(transactionId);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 

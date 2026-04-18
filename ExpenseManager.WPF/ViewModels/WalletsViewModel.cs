@@ -14,11 +14,28 @@ public partial class WalletsViewModel : ObservableObject
     [ObservableProperty]
     private IReadOnlyList<WalletListDto> _wallets = [];
 
+    [ObservableProperty]
+    private bool _isLoading;
+
     public WalletsViewModel(IWalletService walletService, INavigationService navigationService)
     {
         _walletService = walletService;
         _navigationService = navigationService;
-        Wallets = _walletService.GetWalletList();
+        _ = LoadWalletsAsync();
+    }
+
+    [RelayCommand]
+    private async Task LoadWalletsAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            Wallets = await _walletService.GetWalletListAsync();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]

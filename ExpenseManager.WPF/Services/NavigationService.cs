@@ -26,7 +26,7 @@ public class NavigationService : INavigationService
 
         if (viewModel is IParameterReceiver receiver && parameter != null)
         {
-            receiver.ReceiveParameter(parameter);
+            _ = receiver.ReceiveParameterAsync(parameter);
         }
 
         var page = CreatePage(viewModel);
@@ -46,6 +46,8 @@ public class NavigationService : INavigationService
             WalletsViewModel => new WalletsPage(),
             WalletDetailsViewModel => new WalletDetailsPage(),
             TransactionDetailsViewModel => new TransactionDetailsPage(),
+            WalletEditViewModel => new WalletEditPage(),
+            TransactionEditViewModel => new TransactionEditPage(),
             _ => throw new ArgumentException($"no view for {viewModel.GetType().Name}")
         };
 

@@ -21,6 +21,9 @@ public partial class WalletDetailsViewModel : ObservableObject, IParameterReceiv
     [ObservableProperty]
     private bool _hasTransactions;
 
+    [ObservableProperty]
+    private bool _isLoading;
+
     public WalletDetailsViewModel(
         IWalletService walletService,
         ITransactionService transactionService,
@@ -31,13 +34,21 @@ public partial class WalletDetailsViewModel : ObservableObject, IParameterReceiv
         _navigationService = navigationService;
     }
 
-    public void ReceiveParameter(object parameter)
+    public async Task ReceiveParameterAsync(object parameter)
     {
         if (parameter is Guid walletId)
         {
-            Wallet = _walletService.GetWalletDetails(walletId);
-            Transactions = _transactionService.GetTransactionList(walletId);
-            HasTransactions = Transactions.Count > 0;
+            IsLoading = true;
+            try
+            {
+                Wallet = await _walletService.GetWalletDetailsAsync(walletId);
+                Transactions = await _transactionService.GetTransactionListAsync(walletId);
+                HasTransactions = Transactions.Count > 0;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 

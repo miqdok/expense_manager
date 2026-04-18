@@ -4,6 +4,9 @@ namespace ExpenseManager.Repositories;
 
 public interface IWalletRepository
 {
-    IReadOnlyList<WalletEntity> GetAll();
-    WalletEntity? GetById(Guid id);
+    Task<IReadOnlyList<WalletEntity>> GetAllAsync();
+    Task<WalletEntity?> GetByIdAsync(Guid id);
+    Task AddAsync(WalletEntity wallet);
+    Task UpdateAsync(WalletEntity wallet);
+    Task DeleteAsync(Guid id);
 }

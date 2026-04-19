@@ -7,15 +7,41 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       Title="Wallets">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
     <Grid Margin="16">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Гаманці" FontSize="22" FontWeight="Bold" Margin="0,0,0,12" />
+        <DockPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="Гаманці" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" />
+            <Button Content="+ Додати" Command="{Binding AddWalletCommand}" IsEnabled="{Binding IsNotLoading}"
+                    HorizontalAlignment="Right" Padding="12,6" FontSize="13" />
+        </DockPanel>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding Wallets}" HorizontalContentAlignment="Stretch">
+        <ProgressBar Grid.Row="1" IsIndeterminate="True" Height="4" Margin="0,0,0,8"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="13" Padding="6" Margin="0,0,8,0" />
+            <ComboBox Grid.Column="1" SelectedIndex="{Binding SelectedSortIndex}" FontSize="13" Padding="6" Width="150">
+                <ComboBoxItem Content="За назвою" />
+                <ComboBoxItem Content="За валютою" />
+            </ComboBox>
+        </Grid>
+
+        <ListBox Grid.Row="4" ItemsSource="{Binding Wallets}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="4" />
@@ -31,11 +57,15 @@
                         </Grid.InputBindings>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" />
                             <TextBlock Text="{Binding Currency}" FontSize="13" Foreground="Gray" />
                         </StackPanel>
+                        <Button Grid.Column="1" Content="X" VerticalAlignment="Center" Padding="8,4"
+                                Command="{Binding DataContext.DeleteWalletCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -10,17 +10,27 @@
       Title="Transaction Details">
     <Page.Resources>
         <local:AmountColorConverter x:Key="AmountColorConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Page.Resources>
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="0" Content="← Назад" HorizontalAlignment="Left"
-                Command="{Binding GoBackCommand}" Padding="8,4" />
+        <DockPanel Grid.Row="0">
+            <Button Content="← Назад" Command="{Binding GoBackCommand}" Padding="8,4" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Редагувати" Command="{Binding EditTransactionCommand}" IsEnabled="{Binding IsNotLoading}" Padding="8,4" Margin="0,0,8,0" />
+                <Button Content="Видалити" Command="{Binding DeleteTransactionCommand}" IsEnabled="{Binding IsNotLoading}" Padding="8,4" />
+            </StackPanel>
+        </DockPanel>
 
-        <StackPanel Grid.Row="1" Margin="0,16,0,0">
+        <ProgressBar Grid.Row="1" IsIndeterminate="True" Height="4" Margin="0,8,0,0"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+
+        <StackPanel Grid.Row="2" Margin="0,16,0,0">
             <TextBlock Text="{Binding Transaction.Id, StringFormat='Id: {0}'}" FontSize="12" Foreground="Gray" />
             <TextBlock Text="{Binding Transaction.WalletId, StringFormat='Гаманець: {0}'}" FontSize="12" Foreground="Gray" />
             <TextBlock Text="{Binding Transaction.Date, StringFormat='Дата: {0:yyyy-MM-dd HH:mm}'}" FontSize="16" Margin="0,8,0,0" />

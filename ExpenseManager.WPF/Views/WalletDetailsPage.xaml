@@ -17,22 +17,51 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="0" Content="← Назад" HorizontalAlignment="Left"
-                Command="{Binding GoBackCommand}" Padding="8,4" />
+        <DockPanel Grid.Row="0">
+            <Button Content="← Назад" Command="{Binding GoBackCommand}" Padding="8,4" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Редагувати" Command="{Binding EditWalletCommand}" IsEnabled="{Binding IsNotLoading}" Padding="8,4" Margin="0,0,8,0" />
+                <Button Content="Видалити" Command="{Binding DeleteWalletCommand}" IsEnabled="{Binding IsNotLoading}" Padding="8,4" />
+            </StackPanel>
+        </DockPanel>
 
-        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+        <ProgressBar Grid.Row="1" IsIndeterminate="True" Height="4" Margin="0,8,0,0"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+
+        <StackPanel Grid.Row="2" Margin="0,12,0,0">
             <TextBlock Text="{Binding Wallet.Name}" FontSize="22" FontWeight="Bold" />
             <TextBlock Text="{Binding Wallet.Id, StringFormat='Id: {0}'}" FontSize="12" Foreground="Gray" />
             <TextBlock Text="{Binding Wallet.Currency, StringFormat='Валюта: {0}'}" FontSize="14" Margin="0,4,0,0" />
             <TextBlock Text="{Binding Wallet.TotalAmount, StringFormat='Баланс: {0:N2}'}" FontSize="14" Margin="0,4,0,0" />
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Text="Транзакції" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,8" />
+        <DockPanel Grid.Row="3" Margin="0,16,0,8">
+            <TextBlock Text="Транзакції" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+            <Button Content="+ Додати" Command="{Binding AddTransactionCommand}" IsEnabled="{Binding IsNotLoading}"
+                    HorizontalAlignment="Right" Padding="12,6" FontSize="13" />
+        </DockPanel>
 
-        <TextBlock Grid.Row="3" Text="Транзакцій немає" FontSize="14" Foreground="Gray" Margin="0,4,0,0">
+        <Grid Grid.Row="4" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="13" Padding="6" Margin="0,0,8,0" />
+            <ComboBox Grid.Column="1" SelectedIndex="{Binding SelectedSortIndex}" FontSize="13" Padding="6" Width="150">
+                <ComboBoxItem Content="За датою" />
+                <ComboBoxItem Content="За сумою" />
+                <ComboBoxItem Content="За категорією" />
+            </ComboBox>
+        </Grid>
+
+        <TextBlock Grid.Row="6" Text="Транзакцій немає" FontSize="14" Foreground="Gray" Margin="0,4,0,0">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Visible" />
@@ -45,7 +74,7 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <ListBox Grid.Row="3" ItemsSource="{Binding Transactions}" HorizontalContentAlignment="Stretch"
+        <ListBox Grid.Row="6" ItemsSource="{Binding Transactions}" HorizontalContentAlignment="Stretch"
                  Visibility="{Binding HasTransactions, Converter={StaticResource BoolToVis}}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -59,13 +88,17 @@
                             <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Date, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" />
                         <TextBlock Grid.Column="1" Text="{Binding Category}" />
                         <TextBlock Grid.Column="2" Text="{Binding Description}" Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="8,0" />
                         <TextBlock Grid.Column="3" Text="{Binding Amount, StringFormat='{}{0:N2}'}" TextAlignment="Right"
                                    Foreground="{Binding Amount, Converter={StaticResource AmountColorConverter}}" FontWeight="SemiBold" />
+                        <Button Grid.Column="4" Content="X" Padding="6,2" Margin="8,0,0,0"
+                                Command="{Binding DataContext.DeleteTransactionCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
